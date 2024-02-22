@@ -1,0 +1,6 @@
+@BlazorTickets.DAL_HostAddress = http://localhost:5116
+
+GET {{BlazorTickets.DAL_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
