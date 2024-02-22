@@ -1,6 +1,6 @@
 ﻿namespace Shared.ViewModels
 {
-	enum Tag
+	public enum Tag
 	{
 		CSharp,
 		DotNet,

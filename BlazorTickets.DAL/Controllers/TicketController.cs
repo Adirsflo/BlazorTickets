@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shared.ViewModels;
 
 namespace BlazorTickets.DAL.Controllers
 {
@@ -7,23 +8,39 @@ namespace BlazorTickets.DAL.Controllers
 	public class TicketController : ControllerBase
 	{
 		public List<TicketModel>? Tickets { get; set; }
-		//private DbContext context; /*Privat fältvariabel för dependency injection*/
+
+		/*Privat fältvariabel för dependency injection*/
+		//private DbContext context; 
 
 		// Hämta alla tickets i en lista
 		[HttpGet]
 		public ActionResult<List<TicketModel>> Get()
 		{
-			//Tickets = context.Tickets.ToList(); /*Hämta alla tickets i databasen och lägg in dem i listan*/
+			/*Hämta alla tickets i databasen och lägg in dem i listan*/
+			//Tickets = context.Tickets.ToList(); 
 			return Ok(Tickets);
+		}
+
+		[HttpGet("{id:int}")]
+		public ActionResult<TicketModel> Get(int id)
+		{
+			//Hämta ticketen ur databasen
+			//TicketModel? ticket = context.Tickets.FirstOrDefault(x => x.Id == id);
+			//if(TicketModel != null)
+			//{
+			//	return Ok(ticket);
+			//}
+			return NotFound();
 		}
 
 		// Posta en ny ticket
 		[HttpPost]
-		public ActionResult PostTicket(TicketViewModel model)
+		public ActionResult PostTicket(TicketModel model)
 		{
 			if (model != null)
 			{
-				//context.Tickets.Add(model); /*Lägg till ticketen i databasen*/
+				/*Lägg till ticketen i databasen*/
+				//context.Tickets.Add(model); 
 				//context.SaveChanges();
 				return Ok();
 			}
@@ -32,11 +49,12 @@ namespace BlazorTickets.DAL.Controllers
 
 		//Ändra en existerande ticket
 		[HttpPut("{id:int}")]
-		public ActionResult UpdateTicket(int id, TicketViewModel model)
+		public ActionResult UpdateTicket(int id, TicketModel model)
 		{
 			if (model != null)
 			{
-				//TicketModel ticketToEdit = context.Tickets.FirstOrDefault(x => x.id == id); /*Hämta den du ska edita*/
+				/*Hämta den du ska edita*/
+				//TicketModel ticketToEdit = context.Tickets.FirstOrDefault(x => x.id == id); 
 				//ticketToEdit.Title = model.Title;
 				//ticketToEdit.Description = model.Description;
 				//ticketToEdit.IsResolved = model.IsResolved;
