@@ -19,7 +19,7 @@ namespace BlazorTickets.DAL.Controllers
 
 		// Posta en ny ticket
 		[HttpPost]
-		public ActionResult PostTicket(TicketModel model)
+		public ActionResult PostTicket(TicketViewModel model)
 		{
 			if (model != null)
 			{
@@ -32,7 +32,7 @@ namespace BlazorTickets.DAL.Controllers
 
 		//Ändra en existerande ticket
 		[HttpPut("{id:int}")]
-		public ActionResult UpdateTicket(int id, TicketModel model)
+		public ActionResult UpdateTicket(int id, TicketViewModel model)
 		{
 			if (model != null)
 			{
