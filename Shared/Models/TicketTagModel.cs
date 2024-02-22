@@ -1,6 +1,6 @@
 ﻿namespace Shared.ViewModels
 {
-	internal class TicketTagModel
+	public class TicketTagModel
 	{
 		public int TicketId { get; set; }
 		public TicketModel Ticket { get; set; } = null!;

@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shared.ViewModels;
 
 namespace BlazorTickets.DAL.Controllers
 {
@@ -19,7 +20,7 @@ namespace BlazorTickets.DAL.Controllers
 
 		// Posta en ny ticket
 		[HttpPost]
-		public ActionResult PostTicket(TicketViewModel model)
+		public ActionResult PostTicket(TicketModel model)
 		{
 			if (model != null)
 			{
@@ -32,7 +33,7 @@ namespace BlazorTickets.DAL.Controllers
 
 		//Ändra en existerande ticket
 		[HttpPut("{id:int}")]
-		public ActionResult UpdateTicket(int id, TicketViewModel model)
+		public ActionResult UpdateTicket(int id, TicketModel model)
 		{
 			if (model != null)
 			{

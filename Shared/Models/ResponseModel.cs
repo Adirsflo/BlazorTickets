@@ -1,6 +1,6 @@
 ﻿namespace Shared.ViewModels
 {
-	internal class ResponseModel
+	public class ResponseModel
 	{
 		public int Id { get; set; }
 		public string Response { get; set; }
