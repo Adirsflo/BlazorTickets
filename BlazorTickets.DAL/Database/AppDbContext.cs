@@ -13,6 +13,7 @@ namespace BlazorTickets.DAL.Database
 		public DbSet<TicketModel> Tickets { get; set; }
 		public DbSet<ResponseModel> Responses { get; set; }
 		public DbSet<TagModel> Tags { get; set; }
+		public DbSet<TicketTagModel> TicketTags { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
