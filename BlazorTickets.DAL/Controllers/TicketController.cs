@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Shared.ViewModels;
 
 namespace BlazorTickets.DAL.Controllers
@@ -10,13 +11,13 @@ namespace BlazorTickets.DAL.Controllers
 		public List<TicketModel>? Tickets { get; set; }
 
 		/*Privat fältvariabel för dependency injection*/
-		//private readonly DbContext context; 
+		private readonly DbContext context;
 
-		// Constructor för DI
-		//public TicketController(DbContext context)
-		//      {
-		//	this.context = context;
-		//      }
+		//Constructor för DI
+		public TicketController(DbContext context)
+		{
+			this.context = context;
+		}
 
 		// Hämta alla tickets i en lista
 		[HttpGet]
@@ -28,7 +29,7 @@ namespace BlazorTickets.DAL.Controllers
 			// {
 			//	 t.Responses;
 			// });
-			//.ToList(); 
+			//.ToList();
 			return Ok(Tickets);
 		}
 
