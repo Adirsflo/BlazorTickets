@@ -109,22 +109,5 @@ namespace BlazorTickets.DAL.Controllers
 			return _context.Tickets.Include(t => t.TicketTags).Include(r => r.Responses).ToList();
 		}
 
-		[HttpDelete("{id:int}")]
-		public ActionResult DeleteTicket(int id)
-		{
-			if (id != null)
-			{
-				//TicketModel? model = context.Tickets.FirstOrDefault(x => x.id == id);
-				//if(model != null)
-				//{
-				//context.Remove(Model);
-				//context.SaveChanges();
-				//return Ok();
-
-				//}
-				return NotFound();
-			}
-			return BadRequest();
-		}
 	}
 }
