@@ -2,6 +2,7 @@
 {
     public class ResponseViewModel
     {
+        // TODO: Kolla igenom listan mer noggrant
         public int Id { get; set; }
         public string Response { get; set; }
         public string SubmittedBy { get; set; }

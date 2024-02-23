@@ -1,6 +1,5 @@
 ﻿namespace BlazorTickets.Models
 {
-
     public class TicketViewModel
     {
         // TODO: Kolla igenom listan mer noggrant
