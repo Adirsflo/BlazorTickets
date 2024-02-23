@@ -10,7 +10,7 @@ namespace BlazorTickets.DAL.Controllers
 	public class ResponseController : ControllerBase
 	{
 		/*Fältvariabel för dependency injection databas*/
-		private AppDbContext _context;
+		private readonly AppDbContext _context;
 
 		public ResponseController(AppDbContext context)
 		{
@@ -27,19 +27,19 @@ namespace BlazorTickets.DAL.Controllers
 			return Ok(responses);
 		}
 
-		[HttpGet("{int:id")]
-		public async Task<ActionResult<List<ResponseModel?>>> GetAllResponsesForSingleTicket(int ticketId)
-		{
-			TicketModel? ticket = await _context.Tickets
-				.Include(t => t.Responses)
-				.FirstOrDefaultAsync(h => h.Id == ticketId);
-			if (ticket.Responses != null)
-			{
+		//[HttpGet("{id:int}")]
+		//public async Task<ActionResult<List<ResponseModel?>>> GetAllResponsesForSingleTicket(int id)
+		//{
+		//	TicketModel? ticket = await _context.Tickets
+		//		.Include(t => t.Responses)
+		//		.FirstOrDefaultAsync(h => h.Id == id);
+		//	if (ticket.Responses != null)
+		//	{
 
-				return Ok(ticket.Responses);
-			}
-			return NotFound("Couldn't find any responses, Have you checked if there are any?");
-		}
+		//		return Ok(ticket.Responses);
+		//	}
+		//	return NotFound("Couldn't find any responses, Have you checked if there are any?");
+		//}
 
 		[HttpGet("{id:int}")]
 		public async Task<ActionResult<ResponseModel>> GetSingleResponse(int id)
@@ -47,28 +47,32 @@ namespace BlazorTickets.DAL.Controllers
 			ResponseModel? response = await _context.Responses
 			.Include(t => t.Ticket)
 			.FirstOrDefaultAsync(h => h.Id == id);
-			return Ok(response);
+
+			if (response != null)
+			{
+
+				return Ok(response);
+			}
+			return NotFound();
 		}
 
 		// Posta en ny respons
-		[HttpPost]
-		public async Task<ActionResult> PostResponse(ResponseModel responseModel, TicketModel ticket)
+		[HttpPost("{id:int}")]
+		public async Task<ActionResult<TicketModel>> PostResponse(ResponseModel responseModel, int id)
 		{
 			// Kolla så att modellerna inte är null
-			if (responseModel != null && ticket != null)
+			if (responseModel != null)
 			{
-				// Lägg till responset i ticketen
-				ticket.Responses.Add(responseModel);
 
 				// Hitta motsvarande ticket i databasen
 				TicketModel? dbTicket = await _context.Tickets
 					.Include(r => r.Responses)
-					.FirstOrDefaultAsync(t => t.Id == ticket.Id);
+					.FirstOrDefaultAsync(t => t.Id == id);
 
 				// Lägg till responsen i databas ticketen
-				dbTicket.Responses = ticket.Responses;
+				dbTicket.Responses.Add(responseModel);
 				await _context.SaveChangesAsync();
-				return Ok();
+				return Ok(dbTicket);
 			}
 			return BadRequest();
 		}
