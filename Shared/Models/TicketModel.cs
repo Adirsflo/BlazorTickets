@@ -1,7 +1,10 @@
-﻿namespace Shared.ViewModels
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Shared.ViewModels
 {
 	public class TicketModel
 	{
+		[Key]
 		public int Id { get; set; }
 		public string Title { get; set; } = null!;
 		public string Description { get; set; } = null!;
