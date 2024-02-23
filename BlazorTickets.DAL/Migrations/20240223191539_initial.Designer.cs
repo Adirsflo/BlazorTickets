@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BlazorTickets.DAL.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240223103316_initial")]
+    [Migration("20240223191539_initial")]
     partial class initial
     {
         /// <inheritdoc />
