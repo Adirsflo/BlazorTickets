@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using BlazorTickets.DAL.Database;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Shared.ViewModels;
 
@@ -8,79 +9,104 @@ namespace BlazorTickets.DAL.Controllers
 	[ApiController]
 	public class TicketController : ControllerBase
 	{
-		public List<TicketModel>? Tickets { get; set; }
 
 		/*Privat fältvariabel för dependency injection*/
-		private readonly DbContext context;
+		private readonly AppDbContext _context;
 
 		//Constructor för DI
-		public TicketController(DbContext context)
+		public TicketController(AppDbContext context)
 		{
-			this.context = context;
+			_context = context;
 		}
 
 		// Hämta alla tickets i en lista
 		[HttpGet]
-		public async Task<ActionResult<List<TicketModel>>> Get()
+		public async Task<ActionResult<List<TicketModel>>> GetAllTickets()
 		{
 			/*Hämta alla tickets i databasen och lägg in dem i listan, använd include kanske?*/
-			//Tickets = await context.Tickets
-			//.Include(t =>
-			// {
-			//	 t.Responses;
-			// });
-			//.ToList();
-			return Ok(Tickets);
+			List<TicketModel>? tickets = await _context.Tickets
+			.Include(t => t.TicketTags)
+			.Include(r => r.Responses)
+			.ToListAsync();
+			return Ok(tickets);
 		}
 
-		[HttpGet("{id:int}")]
-		//public async Task<ActionResult<TicketModel>> GetSingleTicket(int id)
-		//{
-		//	//Hämta ticketen ur databasen
-		//	//TicketModel? ticket = await context.Tickets
-		//	//.Include(t =>
-		//	// {
-		//	//	 t.Responses;
-		//	// });
-		//	//FirstOrDefault(x => x.Id == id);
 
-		//	//if (ticket != null)
-		//	//{
-		//	//	return Ok(ticket);
-		//	//}
-		//	//return NotFound();
-		//}
+		[HttpGet("{id:int}")]
+		public async Task<ActionResult<TicketModel>> GetSingleTicket(int id)
+		{
+			//Hämta ticketen ur databasen
+			TicketModel? ticket = await _context.Tickets
+			.Include(t => t.Responses)
+			.Include(r => r.TicketTags)
+			.FirstOrDefaultAsync(x => x.Id == id);
+
+			if (ticket != null)
+			{
+				return Ok(ticket);
+			}
+			return NotFound();
+		}
 
 		// Posta en ny ticket
 		[HttpPost]
-		public async Task<ActionResult<List<TicketModel>>> PostTicket(TicketModel model)
+		public async Task<ActionResult<List<TicketModel>>> CreateTicket(TicketModel model)
 		{
+			model.Responses = null;
+
 			if (model != null)
 			{
-				/*Lägg till ticketen i databasen*/
-				//context.Tickets.Add(model); 
-				// await context.SaveChanges();
-				return Ok();
+				_context.Tickets.Add(model);
+				await _context.SaveChangesAsync();
+				return Ok(GetAllDbTickets());
 			}
 			return BadRequest();
 		}
 
 		//Ändra en existerande ticket
 		[HttpPut("{id:int}")]
-		public ActionResult UpdateTicket(int id, TicketModel model)
+		public async Task<ActionResult<List<TicketModel>>> UpdateTicket(int id, TicketModel model)
 		{
-			if (model != null)
+			var dbTicket = await _context.Tickets
+				.Include(t => t.TicketTags)
+				.Include(r => r.Responses)
+				.FirstOrDefaultAsync(h => h.Id == id);
+			if (dbTicket != null)
 			{
-				/*Hämta den du ska edita*/
-				//TicketModel ticketToEdit = context.Tickets.FirstOrDefault(x => x.id == id); 
-				//ticketToEdit.Title = model.Title;
-				//ticketToEdit.Description = model.Description;
-				//ticketToEdit.IsResolved = model.IsResolved;
-				//ticketToEdit.TicketTags = model.TicketTags;
-				//context.SaveChanges();
-				return Ok(model);
+				dbTicket.Title = model.Title;
+				dbTicket.Description = model.Description;
+				dbTicket.TicketTags = model.TicketTags;
+				dbTicket.IsResolved = model.IsResolved;
+				await _context.SaveChangesAsync();
+
+				return base.Ok(GetAllDbTickets());
+
 			}
-			return BadRequest();
+			return NotFound("Sorry couldn't find that Ticket");
+		}
+
+		[HttpDelete("{id:int}")]
+		public async Task<ActionResult<List<TicketModel>>> DeleteTicket(int id)
+		{
+			var dbTicket = await _context.Tickets
+				.Include(t => t.TicketTags)
+				.Include(r => r.Responses)
+				.FirstOrDefaultAsync(h => h.Id == id);
+			if (dbTicket != null)
+			{
+				_context.Tickets.Remove(dbTicket);
+
+				await _context.SaveChangesAsync();
+
+				return base.Ok(GetAllDbTickets());
+
+			}
+			return NotFound("Sorry couldn't find that Ticket");
+		}
+
+		private List<TicketModel> GetAllDbTickets()
+		{
+			return _context.Tickets.Include(t => t.TicketTags).Include(r => r.Responses).ToList();
 		}
 
 		[HttpDelete("{id:int}")]
