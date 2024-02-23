@@ -5,13 +5,14 @@ namespace BlazorTickets.DAL.Database
 {
 	public class AppDbContext : DbContext
 	{
-		public AppDbContext()
+		public AppDbContext(DbContextOptions<DbContext> options) : base(options)
 		{
 
 		}
 
 		public DbSet<TicketModel> Tickets { get; set; }
 		public DbSet<ResponseModel> Responses { get; set; }
+		public DbSet<TagModel> Tags { get; set; }
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
@@ -34,6 +35,5 @@ namespace BlazorTickets.DAL.Database
 			.WithMany(t => t.Responses)
 			.HasForeignKey(r => r.TicketId);
 		}
-
 	}
 }
