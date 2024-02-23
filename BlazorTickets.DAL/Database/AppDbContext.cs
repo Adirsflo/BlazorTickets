@@ -13,13 +13,6 @@ namespace BlazorTickets.DAL.Database
 		public DbSet<TicketModel> Tickets { get; set; }
 		public DbSet<ResponseModel> Responses { get; set; }
 
-		protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-		{
-			base.OnConfiguring(optionsBuilder);
-
-			optionsBuilder.UseSqlServer("Server=(localdb)\\mssqllocaldb;Database=BlazorTickets;Trusted_Connection=True;");
-		}
-
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
