@@ -1,4 +1,4 @@
-namespace BlazorTickets.DAL
+namespace Server
 {
 	public class WeatherForecast
 	{

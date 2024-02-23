@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace BlazorTickets.DAL.Controllers
+namespace Server.Controllers
 {
 	[ApiController]
 	[Route("[controller]")]

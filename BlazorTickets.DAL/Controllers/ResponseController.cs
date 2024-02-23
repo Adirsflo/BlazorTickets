@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Shared.ViewModels;
 
 namespace BlazorTickets.DAL.Controllers
 {
@@ -6,13 +7,15 @@ namespace BlazorTickets.DAL.Controllers
 	[ApiController]
 	public class ResponseController : ControllerBase
 	{
-		//private DbContext context; /*Fältvariabel för dependency injection databas*/
+		/*Fältvariabel för dependency injection databas*/
+		//private DbContext context; 
 		public List<ResponseModel>? Responses { get; set; }
 
 		[HttpGet]
 		public ActionResult<List<ResponseModel>> Get()
 		{
-			//Responses = context.Responses.ToList(); // Hämta alla responses i databasen och lägg dessa i listan
+			// Hämta alla responses i databasen och lägg dessa i listan
+			//Responses = context.Responses.ToList(); 
 			return Ok(Responses);
 		}
 		// Posta en ny respons
@@ -21,7 +24,8 @@ namespace BlazorTickets.DAL.Controllers
 		{
 			if (responseModel != null)
 			{
-				//context.Responses.Add(responseModel); /*Lägg till responsen*/
+				/*Lägg till responsen*/
+				//context.Responses.Add(responseModel); 
 				//context.SaveChanges();
 				return Ok();
 
