@@ -10,38 +10,55 @@ namespace BlazorTickets.DAL.Controllers
 		public List<TicketModel>? Tickets { get; set; }
 
 		/*Privat fältvariabel för dependency injection*/
-		//private DbContext context; 
+		//private readonly DbContext context; 
+
+		// Constructor för DI
+		//public TicketController(DbContext context)
+		//      {
+		//	this.context = context;
+		//      }
 
 		// Hämta alla tickets i en lista
 		[HttpGet]
-		public ActionResult<List<TicketModel>> Get()
+		public async Task<ActionResult<List<TicketModel>>> Get()
 		{
-			/*Hämta alla tickets i databasen och lägg in dem i listan*/
-			//Tickets = context.Tickets.ToList(); 
+			/*Hämta alla tickets i databasen och lägg in dem i listan, använd include kanske?*/
+			//Tickets = await context.Tickets
+			//.Include(t =>
+			// {
+			//	 t.Responses;
+			// });
+			//.ToList(); 
 			return Ok(Tickets);
 		}
 
 		[HttpGet("{id:int}")]
-		public ActionResult<TicketModel> Get(int id)
+		public async Task<ActionResult<TicketModel>> Get(int id)
 		{
 			//Hämta ticketen ur databasen
-			//TicketModel? ticket = context.Tickets.FirstOrDefault(x => x.Id == id);
-			//if(TicketModel != null)
+			//TicketModel? ticket = await context.Tickets
+			//.Include(t =>
+			// {
+			//	 t.Responses;
+			// });
+			//FirstOrDefault(x => x.Id == id);
+
+			//if (ticket != null)
 			//{
 			//	return Ok(ticket);
 			//}
-			return NotFound();
+			//return NotFound();
 		}
 
 		// Posta en ny ticket
 		[HttpPost]
-		public ActionResult PostTicket(TicketModel model)
+		public async Task<ActionResult<List<TicketModel>>> PostTicket(TicketModel model)
 		{
 			if (model != null)
 			{
 				/*Lägg till ticketen i databasen*/
 				//context.Tickets.Add(model); 
-				//context.SaveChanges();
+				// await context.SaveChanges();
 				return Ok();
 			}
 			return BadRequest();
@@ -59,7 +76,6 @@ namespace BlazorTickets.DAL.Controllers
 				//ticketToEdit.Description = model.Description;
 				//ticketToEdit.IsResolved = model.IsResolved;
 				//ticketToEdit.TicketTags = model.TicketTags;
-				//context.Update(ticketToEdit);
 				//context.SaveChanges();
 				return Ok(model);
 			}
