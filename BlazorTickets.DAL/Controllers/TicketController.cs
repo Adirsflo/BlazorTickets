@@ -85,6 +85,25 @@ namespace BlazorTickets.DAL.Controllers
 			return NotFound("Sorry couldn't find that Ticket");
 		}
 
+		[HttpDelete("{id:int}")]
+		public async Task<ActionResult<List<TicketModel>>> DeleteTicket(int id)
+		{
+			var dbTicket = await _context.Tickets
+				.Include(t => t.TicketTags)
+				.Include(r => r.Responses)
+				.FirstOrDefaultAsync(h => h.Id == id);
+			if (dbTicket != null)
+			{
+				_context.Tickets.Remove(dbTicket);
+
+				await _context.SaveChangesAsync();
+
+				return base.Ok(GetAllDbTickets());
+
+			}
+			return NotFound("Sorry couldn't find that Ticket");
+		}
+
 		private List<TicketModel> GetAllDbTickets()
 		{
 			return _context.Tickets.Include(t => t.TicketTags).Include(r => r.Responses).ToList();
