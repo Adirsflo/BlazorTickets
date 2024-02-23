@@ -34,22 +34,22 @@ namespace BlazorTickets.DAL.Controllers
 		}
 
 		[HttpGet("{id:int}")]
-		public async Task<ActionResult<TicketModel>> Get(int id)
-		{
-			//Hämta ticketen ur databasen
-			//TicketModel? ticket = await context.Tickets
-			//.Include(t =>
-			// {
-			//	 t.Responses;
-			// });
-			//FirstOrDefault(x => x.Id == id);
+		//public async Task<ActionResult<TicketModel>> GetSingleTicket(int id)
+		//{
+		//	//Hämta ticketen ur databasen
+		//	//TicketModel? ticket = await context.Tickets
+		//	//.Include(t =>
+		//	// {
+		//	//	 t.Responses;
+		//	// });
+		//	//FirstOrDefault(x => x.Id == id);
 
-			//if (ticket != null)
-			//{
-			//	return Ok(ticket);
-			//}
-			//return NotFound();
-		}
+		//	//if (ticket != null)
+		//	//{
+		//	//	return Ok(ticket);
+		//	//}
+		//	//return NotFound();
+		//}
 
 		// Posta en ny ticket
 		[HttpPost]

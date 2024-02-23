@@ -5,28 +5,26 @@ namespace BlazorTickets.DAL.Database
 {
 	public class AppDbContext : DbContext
 	{
-		public AppDbContext(DbContextOptions<DbContext> options) : base(options)
+		public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
 		{
 
 		}
 
-		public DbSet<TicketModel> Tickets { get; set; }
-		public DbSet<ResponseModel> Responses { get; set; }
-		public DbSet<TagModel> Tags { get; set; }
-		public DbSet<TicketTagModel> TicketTags { get; set; }
+
 
 		protected override void OnModelCreating(ModelBuilder modelBuilder)
 		{
 			base.OnModelCreating(modelBuilder);
-			modelBuilder.Entity<TicketTagModel>()
+
+			modelBuilder.Entity<TicketTag>()
 			.HasKey(tt => new { tt.TicketId, tt.TagId });
 
-			modelBuilder.Entity<TicketTagModel>()
+			modelBuilder.Entity<TicketTag>()
 			.HasOne(tt => tt.Ticket)
 			.WithMany(t => t.TicketTags)
 			.HasForeignKey(tt => tt.TicketId);
 
-			modelBuilder.Entity<TicketTagModel>()
+			modelBuilder.Entity<TicketTag>()
 			.HasOne(tt => tt.Tag)
 			.WithMany(t => t.TicketTags)
 			.HasForeignKey(tt => tt.TagId);
@@ -36,5 +34,9 @@ namespace BlazorTickets.DAL.Database
 			.WithMany(t => t.Responses)
 			.HasForeignKey(r => r.TicketId);
 		}
+		public DbSet<TicketModel> Tickets { get; set; }
+		public DbSet<ResponseModel> Responses { get; set; }
+		public DbSet<TagModel> Tags { get; set; }
+		public DbSet<TicketTag> TicketTags { get; set; }
 	}
 }

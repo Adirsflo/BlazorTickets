@@ -1,15 +1,11 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Shared.ViewModels
+﻿namespace Shared.ViewModels
 {
 	public class ResponseModel
 	{
-		[Key]
 		public int Id { get; set; }
-		public string Response { get; set; }
-		public string SubmittedBy { get; set; }
-		[Key]
+		public string Response { get; set; } = null!;
+		public string? SubmittedBy { get; set; }
 		public int TicketId { get; set; }
-		public TicketModel Ticket { get; set; }
+		public TicketModel Ticket { get; set; } = null!;
 	}
 }
