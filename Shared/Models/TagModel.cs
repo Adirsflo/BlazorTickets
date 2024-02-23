@@ -1,13 +1,10 @@
-﻿using System.ComponentModel.DataAnnotations;
-
-namespace Shared.ViewModels
+﻿namespace Shared.ViewModels
 {
 	public class TagModel
 	{
-		[Key]
 		public int Id { get; set; }
-		public string Name { get; set; }
-		public List<TicketTagModel> TicketTags { get; set; } = new List<TicketTagModel>();
+		public string Name { get; set; } = null!;
+		public List<TicketTag> TicketTags { get; set; } = new List<TicketTag>();
 
 	}
 }
