@@ -1,3 +1,5 @@
+using Microsoft.AspNetCore.Mvc;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -35,3 +37,35 @@ app.MapControllers();
 app.UseCors("AllowAll");
 
 app.Run();
+
+public class MyDb
+{
+	private readonly IConfiguration _configuration;
+
+	public MyDb(IConfiguration configuration)
+	{
+		_configuration = configuration;
+	}
+
+	public void MyMethod()
+	{
+		string connectionString = _configuration.GetConnectionString("MyDatabase");
+	}
+}
+
+public class DbController : Controller
+{
+	private readonly IConfiguration _configuration;
+
+	public DbController(IConfiguration configuration)
+	{
+		_configuration = configuration;
+	}
+
+	public IActionResult Index()
+	{
+		string connectionString = _configuration.GetConnectionString("MyDatabase");
+
+		return View();
+	}
+}
