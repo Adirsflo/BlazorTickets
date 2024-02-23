@@ -2,6 +2,7 @@
 {
     public class TicketViewTag
     {
+        // TODO: Kolla igenom listan mer noggrant
         public int TicketId { get; set; }
         public TicketViewModel Ticket { get; set; }
         public int TagId { get; set; }

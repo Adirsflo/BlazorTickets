@@ -1,7 +1,54 @@
 ﻿@page "/"
+@using BlazorTickets.Models
+@using BlazorTickets.Services
+@inject ITicketsService ticketsService 
 
-<PageTitle>Home</PageTitle>
+<PageTitle>Blazor Tickets</PageTitle>
 
-<h1>Hello, world!</h1>
+<h1>Alla tickets!</h1>
 
-Welcome to your new app.
+<p>Antal tickets: No.</p>
+
+
+@if (tickets != null)
+{
+    @foreach (TicketViewModel ticket in tickets)
+    {
+        <hr />
+        <h3>@ticket.Title</h3>
+        <p>@ticket.Description</p> @* TODO: Gör så att inte mer än x tecken dyker upp *@
+        <p>Submited by: User</p>
+        <p>Resolved: Yes / No</p>
+        <p>Response: No.</p>
+    }
+}
+else
+{
+    <h1>There are no tickets at this moment. . .</h1>
+} 
+
+@*
+    Funktionalitet på sidan:
+    - Sökfunktion ovan
+    - Visa alla tickets
+    - Skapa tickets
+    - Återanvändbar komponent
+    -
+*@
+
+@code {
+    private List<TicketViewModel>? tickets;
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            tickets = await ticketsService.GetTickets();
+        }
+        catch
+        {
+            // TODO: Implementera kod
+        }
+    }
+
+}
